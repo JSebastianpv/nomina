@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class RolController {
     @Autowired
     RolService rolServ;
@@ -30,12 +31,25 @@ public class RolController {
         }
     }
 
+    @GetMapping("/rol/{rolId}")
+    public ResponseEntity<Object> get(@PathVariable int rolId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            List<Rol> list = rolServ.getRol(rolId);
+            return new ResponseEntity<Object>(list, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PostMapping("/rol")
     public ResponseEntity<Object> post(@RequestBody RolDto rolDto) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            rolServ.guardarRol(rolDto.getNombre());
+            rolServ.guardarRol(rolDto.getNombre(), rolDto.getBono());
             return ResponseEntity.ok("Rol Creado con Exito");
         } catch (Exception e) {
             map.put("message", e.getMessage());
@@ -47,7 +61,7 @@ public class RolController {
     public ResponseEntity<Object> put(@RequestBody RolDto rolDto) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            rolServ.actualizarRol(rolDto.getId(), rolDto.getNombre());
+            rolServ.actualizarRol(rolDto.getId(), rolDto.getNombre(), rolDto.getBono());
             return ResponseEntity.ok("Rol Actualizado con Exito");
         } catch (Exception e) {
             map.put("message", e.getMessage());

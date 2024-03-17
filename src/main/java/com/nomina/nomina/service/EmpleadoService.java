@@ -12,7 +12,9 @@ public interface EmpleadoService {
 
     public List<Empleado> getEmpleado(int empNum);
 
+    public List<Empleado> getEmpleadoId(int idEmp);
+
     public ResponseEntity<Object> guardarEmp(String nombreEmp, String apellidoEmp, int noEmp, int rolEmp);
 
-    public void actualizaEmp(int idEmp, String nombreEmp, String apellidoEmp, int noEmp, int rolEmp);
+    public ResponseEntity<Object> actualizaEmp(int idEmp, String nombreEmp, String apellidoEmp, int noEmp, int rolEmp);
 }

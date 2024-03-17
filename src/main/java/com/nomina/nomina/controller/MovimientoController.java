@@ -6,16 +6,14 @@ import com.nomina.nomina.service.MovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class MovimientoController {
 
     @Autowired
@@ -37,6 +35,19 @@ public class MovimientoController {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<Movimiento> list = movServ.getMovimientos();
+            return new ResponseEntity<Object>(list, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/movimiento/{movMonth}")
+    public ResponseEntity<Object> get(@PathVariable int movMonth) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            List<Movimiento> list = movServ.getMovimientoMes(movMonth);
             return new ResponseEntity<Object>(list, HttpStatus.OK);
         }
         catch (Exception e) {

@@ -16,4 +16,6 @@ public class Rol implements Serializable {
     private int id;
     @Column(name = "nombre")
     private String nombre;
+    @Column(name = "bono")
+    private float bono;
 }

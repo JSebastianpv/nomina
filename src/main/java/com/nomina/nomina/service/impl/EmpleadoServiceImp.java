@@ -29,14 +29,19 @@ public class EmpleadoServiceImp implements EmpleadoService {
     }
 
     @Override
+    public List<Empleado> getEmpleadoId(int idEmp) {
+        return (List<Empleado>) empRep.getEmpleadoId(idEmp);
+    }
+
+    @Override
     public ResponseEntity<Object> guardarEmp(String nombreEmp, String apellidoEmp, int noEmp, int rolEmp) {
         try {
             Map<String, Object> body = new HashMap<>();
-            body.put("message", "Ya existe un empleado con ese numero de emplado");
+            body.put("error", "Ya existe un empleado con ese numero de empleado");
             // Valido si existe el empleado con ese numero de empleado
             List<Empleado> empleado = getEmpleado(noEmp);
             if(!empleado.isEmpty()) {
-                return ResponseEntity.status(401).body(body);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
             }
 
             empRep.guardarEmp(nombreEmp, apellidoEmp, noEmp, rolEmp);
@@ -47,9 +52,27 @@ public class EmpleadoServiceImp implements EmpleadoService {
     }
 
     @Override
-    public void actualizaEmp(int idEmp, String nombreEmp, String apellidoEmp, int noEmp, int rolEmp) {
+    public ResponseEntity<Object> actualizaEmp(int idEmp, String nombreEmp, String apellidoEmp, int noEmp, int rolEmp) {
         try {
+            Map<String, Object> body = new HashMap<>();
+
+            // busco el empleado por el id
+            List<Empleado> empleado = getEmpleadoId(idEmp);
+            int numActual = 0;
+            for (Empleado emp : empleado) {
+                numActual = emp.getNo_empleado();
+            }
+
+            if (numActual != noEmp) {
+                List<Empleado> empleadoNum = getEmpleado(noEmp);
+                if(!empleadoNum.isEmpty()) {
+                    body.put("error", "Ya existe un empleado con ese numero de empleado");
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+                }
+            }
+
             empRep.actualizaEmp(idEmp, nombreEmp, apellidoEmp, noEmp, rolEmp);
+            return ResponseEntity.ok("Empleado Actualizado con Exito");
         } catch (Exception e) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }

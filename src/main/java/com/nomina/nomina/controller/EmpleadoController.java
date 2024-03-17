@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class EmpleadoController {
     @Autowired
     EmpleadoService empServ;
@@ -30,11 +31,24 @@ public class EmpleadoController {
         }
     }
 
-    @GetMapping("/empleado/{num_empleado}")
+    @GetMapping("/empleado/num/{num_empleado}")
     public ResponseEntity<Object> get(@PathVariable int num_empleado) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<Empleado> list = empServ.getEmpleado(num_empleado);
+            return new ResponseEntity<Object>(list, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/empleado/{idEmp}")
+    public ResponseEntity<Object> getEmpId(@PathVariable int idEmp) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            List<Empleado> list = empServ.getEmpleadoId(idEmp);
             return new ResponseEntity<Object>(list, HttpStatus.OK);
         }
         catch (Exception e) {
@@ -58,9 +72,7 @@ public class EmpleadoController {
     public ResponseEntity<Object> put(@RequestBody EmpleadoDto empDto) {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
-            empServ.actualizaEmp(empDto.getId(), empDto.getNombre(), empDto.getApellido(), empDto.getNo_empleado(), empDto.getRol_id());
-            System.out.println("Aqui inserto");
-            return ResponseEntity.ok("Empleado Actualizado con Exito");
+            return empServ.actualizaEmp(empDto.getId(), empDto.getNombre(), empDto.getApellido(), empDto.getNo_empleado(), empDto.getRol_id());
         } catch (Exception e) {
             map.put("message", e.getMessage());
             return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -10,6 +10,8 @@ import java.util.List;
 public interface MovimientoService {
     public List<Movimiento> getMovimientos();
 
+    public List<Movimiento> getMovimientoMes(int movMonth);
+
     public List<Movimiento> getMovimiento(int empMonth,int empId);
 
     public ResponseEntity<Object> guardarMov(

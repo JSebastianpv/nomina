@@ -22,18 +22,23 @@ public class RolServiceImp implements RolService {
     }
 
     @Override
-    public void guardarRol(String rolNombre) {
+    public List<Rol> getRol(int rolId) {
+        return (List<Rol>) rolRep.getRol(rolId);
+    }
+
+    @Override
+    public void guardarRol(String rolNombre, float rolBono) {
         try {
-            rolRep.guardarRol(rolNombre);
+            rolRep.guardarRol(rolNombre, rolBono);
         } catch (Exception e) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public void actualizarRol(int rolId, String rolNombre) {
+    public void actualizarRol(int rolId, String rolNombre, float rolBono) {
         try {
-            rolRep.actualizaRol(rolId, rolNombre);
+            rolRep.actualizaRol(rolId, rolNombre, rolBono);
         } catch (Exception e) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }

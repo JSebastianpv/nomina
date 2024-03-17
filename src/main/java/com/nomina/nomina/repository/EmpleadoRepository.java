@@ -17,6 +17,10 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM obtener_empleado(:emp_no_empleado)")
     List<Empleado> getEmpleado(@Param("emp_no_empleado") int numEmp);
 
+    //hacer la peticion para un empleado por id
+    @Query(nativeQuery = true, value = "SELECT * FROM obtener_empleado_id(:idEmp)")
+    List<Empleado> getEmpleadoId(@Param("idEmp") int idEmp);
+
     @Query(nativeQuery = true, value = "SELECT guardar_empleado(:emp_nombre, :emp_apellido, :emp_no_empleado, :emp_rol_id)")
     void guardarEmp(@Param("emp_nombre") String nombreEmp,
                     @Param("emp_apellido") String apellidoEmp,

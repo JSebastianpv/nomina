@@ -10,7 +10,9 @@ public interface RolService {
 
     public List<Rol> getRoles();
 
-    public void guardarRol(String rolNombre);
+    public List<Rol> getRol(int rolId);
 
-    public void actualizarRol(int rolId, String rolNombre);
+    public void guardarRol(String rolNombre, float bono);
+
+    public void actualizarRol(int rolId, String rolNombre, float rolBono);
 }

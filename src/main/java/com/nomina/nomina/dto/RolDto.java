@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class RolDto {
     private int id;
     private String nombre;
+    private float bono;
 }

@@ -14,6 +14,9 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Integer>
     @Query(nativeQuery = true, value = "SELECT * FROM obtener_movimientos()")
     List<Movimiento> getMovimientos();
 
+    @Query(nativeQuery = true, value = "SELECT * FROM obtener_movimientos_mes(:movMonth)")
+    List<Movimiento> getMovimientoMes(@Param("movMonth") int movMonth);
+
     @Query(nativeQuery = true, value = "SELECT * FROM obtener_movimiento(:empMonth, :empId)")
     List<Movimiento> getMovimiento(@Param("empMonth") int empMonth,@Param("empId") int empId);
 

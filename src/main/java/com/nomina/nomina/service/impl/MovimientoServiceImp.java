@@ -29,6 +29,11 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
+    public List<Movimiento> getMovimientoMes(int movMonth) {
+        return (List<Movimiento>) movRep.getMovimientoMes(movMonth);
+    }
+
+    @Override
     public List<Movimiento> getMovimiento(int empMonth,int empId) {
         return (List<Movimiento>) movRep.getMovimiento(empMonth,empId);
     }
@@ -45,20 +50,23 @@ public class MovimientoServiceImp implements MovimientoService {
             // Busco el empleado de acuerdo a su numero de empleado
             List<Empleado> empleado = empServ.getEmpleado(movEmpleadoNo);
             String nombreRol = "";
+            float bonoRol = 0;
             int empleadoId = 0;
             float movPagoBonos = 0;
             for (Empleado emp : empleado) {
                 empleadoId = emp.getId();
                 Rol rol = emp.getRol();
                 nombreRol = rol.getNombre();
+                bonoRol = rol.getBono();
             }
 
             List<Movimiento> movtos = movRep.getMovimiento(movMonth, empleadoId);
             if (!movtos.isEmpty()) {
                 Map<String, Object> body = new HashMap<>();
-                body.put("message", "Ya existen movimientos de este empleado este mes");
+                body.put("error", "Ya existen movimientos de este empleado este mes");
                 return ResponseEntity.status(401).body(body);
             }
+            /*
             // Si es chofer el bono por hora es de 10
             if (nombreRol.equals("Chofer")) {
                 movPagoBonos = movHorasT * 10;
@@ -66,6 +74,8 @@ public class MovimientoServiceImp implements MovimientoService {
             } else if (nombreRol.equals("Cargador")) {
                 movPagoBonos = movHorasT * 5;
             }
+            */
+            movPagoBonos = movHorasT * bonoRol;
             // Calculo el sueldo base de acuerdo a las horas trabajadas por el costo por hora
             float sueldoBase = movHorasT * 30;
             // Calculo el pago por entregas, pagan 5 por cada entrega
@@ -98,7 +108,7 @@ public class MovimientoServiceImp implements MovimientoService {
 
 
             movRep.guardarMov(movHorasT, movMonth, movNoEntregas, movPagoBonos, movPagoEntregas, movRetencion, movSueldo, movVales, empleadoId);
-            return ResponseEntity.ok("Empleado Creado con Exito");
+            return ResponseEntity.ok("Movimiento registrado con Exito");
         } catch (Exception e) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }

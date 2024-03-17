@@ -11,9 +11,12 @@ public interface RolRepository extends JpaRepository<Rol, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM obtener_roles()")
     List<Rol> getRoles();
 
-    @Query(nativeQuery = true, value = "SELECT guardar_rol(:rol_nombre)")
-    void guardarRol(@Param("rol_nombre") String nombreRol);
+    @Query(nativeQuery = true, value = "SELECT * FROM obtener_rol(:rol_id)")
+    List<Rol> getRol(@Param("rol_id") int rolId);
 
-    @Query(nativeQuery = true, value = "SELECT actualizar_rol(:rol_id, :rol_nombre)")
-    void actualizaRol(@Param("rol_id") int rolId, @Param("rol_nombre") String rolNombre);
+    @Query(nativeQuery = true, value = "SELECT guardar_rol(:rol_nombre, :rol_bono)")
+    void guardarRol(@Param("rol_nombre") String nombreRol, @Param("rol_bono") float rolBono);
+
+    @Query(nativeQuery = true, value = "SELECT actualizar_rol(:rol_id, :rol_nombre, :rol_bono)")
+    void actualizaRol(@Param("rol_id") int rolId, @Param("rol_nombre") String rolNombre, @Param("rol_bono") float rolBono);
 }
