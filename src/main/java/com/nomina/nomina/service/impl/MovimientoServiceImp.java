@@ -23,29 +23,45 @@ public class MovimientoServiceImp implements MovimientoService {
     @Autowired
     EmpleadoService empServ;
 
+    // Funcion para obtener todos los movimientos
     @Override
     public List<Movimiento> getMovimientos() {
         return (List<Movimiento>) movRep.getMovimientos();
     }
 
+    // Funcion para obtener los movimientos por mes
     @Override
     public List<Movimiento> getMovimientoMes(int movMonth) {
         return (List<Movimiento>) movRep.getMovimientoMes(movMonth);
     }
 
+    // Funcion para obtener un movimiento por id
+    @Override
+    public List<Movimiento> getMovimientoId(int movId) {
+        return (List<Movimiento>) movRep.getMovimientoId(movId);
+    }
+
+    // Funcion para obtener un movimiento por mes y empleado
     @Override
     public List<Movimiento> getMovimiento(int empMonth,int empId) {
         return (List<Movimiento>) movRep.getMovimiento(empMonth,empId);
     }
 
+    // Funcion para guardar los movimientos
     @Override
     public ResponseEntity<Object> guardarMov(
                            int movMonth,
                            int movNoEntregas,
-                           int movEmpleadoNo) {
+                           int movEmpleadoNo,
+                           int movFaltas) {
         try {
+            // calculo las horas de los dias que no trabajo
+            int horasNoTrabajo = 8 * movFaltas;
+
             // El numero de horas trabajadas al mes considerando que en una semana son 48horas
             int movHorasT = 48 * 4;
+
+            movHorasT = movHorasT - horasNoTrabajo;
 
             // Busco el empleado de acuerdo a su numero de empleado
             List<Empleado> empleado = empServ.getEmpleado(movEmpleadoNo);
@@ -107,7 +123,7 @@ public class MovimientoServiceImp implements MovimientoService {
             movSueldo = sueldoDImpuestos + movVales;
 
 
-            movRep.guardarMov(movHorasT, movMonth, movNoEntregas, movPagoBonos, movPagoEntregas, movRetencion, movSueldo, movVales, empleadoId);
+            movRep.guardarMov(movHorasT, movMonth, movNoEntregas, movPagoBonos, movPagoEntregas, movRetencion, movSueldo, movVales, empleadoId, bonoRol, nombreRol, sueldoBase, movFaltas );
             return ResponseEntity.ok("Movimiento registrado con Exito");
         } catch (Exception e) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);

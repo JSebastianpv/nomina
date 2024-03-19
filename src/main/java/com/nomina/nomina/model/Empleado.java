@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "Empleado")
 @Data
 public class Empleado implements Serializable {
+    // Aqui creo la estructura de mi tabla o entidad Empleado
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

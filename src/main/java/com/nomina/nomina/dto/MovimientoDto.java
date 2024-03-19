@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MovimientoDto {
+    // Utilizo el dto para encapsular los datos y transferirlos a otros componentes
     private int num_empleado;
     private int month;
     private int num_entregas;
+    private int num_faltas;
 }

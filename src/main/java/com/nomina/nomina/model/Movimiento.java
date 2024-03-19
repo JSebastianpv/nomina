@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Table(name = "Movimiento")
 @Data
 public class Movimiento implements Serializable {
+    // Aqui creo la estructura de mi tabla o entidad Movimiento
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,6 +30,14 @@ public class Movimiento implements Serializable {
     private float vales;
     @Column(name = "sueldo_total")
     private float sueldo_total;
+    @Column(name = "bono_hora")
+    private float bono_hora;
+    @Column(name = "nombre_rol")
+    private String nombre_rol;
+    @Column(name = "sueldo_base")
+    private float sueldo_base;
+    @Column(name = "num_faltas")
+    private int num_faltas;
     @ManyToOne
     @JoinColumn(name = "empleado_id")
     private Empleado empleado;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RolDto {
+    // Utilizo el dto para encapsular los datos y transferirlos a otros componentes
     private int id;
     private String nombre;
     private float bono;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class EmpleadoDto {
+    // Utilizo el dto para encapsular los datos y transferirlos a otros componentes
     private int id;
     private String nombre;
     private String apellido;

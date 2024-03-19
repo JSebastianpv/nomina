@@ -14,10 +14,13 @@ public interface MovimientoService {
 
     public List<Movimiento> getMovimiento(int empMonth,int empId);
 
+    public List<Movimiento> getMovimientoId(int movId);
+
     public ResponseEntity<Object> guardarMov(
                            int movMonth,
                            int movNoEntregas,
-                           int movEmpleadoNo
+                           int movEmpleadoNo,
+                           int movFaltas
                           );
 
     public void actualizaMov(

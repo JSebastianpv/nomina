@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "Rol")
 @Data
 public class Rol implements Serializable {
+    // Aqui creo la estructura de mi tabla o entidad Rol
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -18,6 +18,7 @@ public class EmpleadoController {
     @Autowired
     EmpleadoService empServ;
 
+    // Peticion GET para obtener los empleados
     @GetMapping("/empleado")
     public ResponseEntity<Object> get() {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -31,6 +32,7 @@ public class EmpleadoController {
         }
     }
 
+    // Peticion GET para obtener un empleado por su numero de empleado
     @GetMapping("/empleado/num/{num_empleado}")
     public ResponseEntity<Object> get(@PathVariable int num_empleado) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -44,6 +46,7 @@ public class EmpleadoController {
         }
     }
 
+    // Peticion GET para obtener un empleado por su numero id
     @GetMapping("/empleado/{idEmp}")
     public ResponseEntity<Object> getEmpId(@PathVariable int idEmp) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -57,6 +60,7 @@ public class EmpleadoController {
         }
     }
 
+    // Peticion POST para guardar empleado
     @PostMapping("/empleado")
     public ResponseEntity<Object> post(@RequestBody EmpleadoDto empDto) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -68,6 +72,7 @@ public class EmpleadoController {
         }
     }
 
+    // Peticion PUT para actualizar el empleado
     @PutMapping("/empleado")
     public ResponseEntity<Object> put(@RequestBody EmpleadoDto empDto) {
         Map<String, Object> map = new HashMap<String, Object>();
